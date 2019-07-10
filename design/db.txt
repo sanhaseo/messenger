@@ -1,0 +1,25 @@
+users: {
+  id: id,
+  username: unique string,
+  password: string,
+  contacts: [ username, username, ... ],
+  conversations: [ id, id, ... ]
+}
+
+conversations: {
+  id: id,
+  participants: [ username, username, ... ],
+  messages: [
+    {
+      username: string,
+      text: string,
+      date: date
+    },
+    {
+      username: string,
+      text: string,
+      date: date
+    },
+    ...
+  ]
+}

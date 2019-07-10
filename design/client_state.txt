@@ -1,0 +1,31 @@
+auth: {
+  isAuthenticated: boolean,
+  user: { name: string },
+}
+
+error: { message: string }
+
+contacts: [ name, name, ... ]
+
+conversations: [
+  {
+    id: id,
+    participants: [ name, name, ... ],
+    messages: [
+      {
+        user: string,
+        text: string,
+        date: date
+      },
+      {
+        user: string,
+        text: string,
+        date: date
+      },
+      ...
+    ]
+  },
+  ...
+]
+
+currentConversation: id
