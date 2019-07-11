@@ -14,4 +14,4 @@ const searchUserInDB = async username => {
   }
 };
 
-module.exports = searchUserInDB;
+export default searchUserInDB;
