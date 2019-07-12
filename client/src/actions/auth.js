@@ -1,9 +1,6 @@
 import { SET_CURRENT_USER, CLEAR_USER } from '../actions/actionTypes';
 import axios from 'axios';
 
-// test
-import { testGetUser } from '../testDB';
-
 const setCurrentUser = user => ({
   type: SET_CURRENT_USER,
   user

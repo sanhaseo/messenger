@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-// Conversation model
+// User and Conversation models
 const User = require('../../models/User');
 const Conversation = require('../../models/Conversation');
 

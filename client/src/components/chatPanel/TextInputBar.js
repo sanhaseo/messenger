@@ -10,7 +10,7 @@ import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1.5),
     display: 'flex',
   },
   textField: {
@@ -19,7 +19,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const TextInputBar = ({ user, currentConversation, addMessageToServer }) => {
+const TextInputBar = ({ 
+  username, 
+  currentConversation, 
+  addMessageToServer 
+}) => {
   // Current input text.
   const [text, setText] = useState('');
 
@@ -33,7 +37,7 @@ const TextInputBar = ({ user, currentConversation, addMessageToServer }) => {
     if (!text) return;
 
     const message = {
-      user,
+      username,
       text,
       date: Date.now()
     };
@@ -63,7 +67,7 @@ const TextInputBar = ({ user, currentConversation, addMessageToServer }) => {
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.user.name,
+  username: state.auth.user.name,
   currentConversation: state.currentConversation
 });
 

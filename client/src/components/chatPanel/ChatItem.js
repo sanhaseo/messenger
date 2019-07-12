@@ -45,13 +45,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ChatItem = ({ message, username }) => {
-  const { user, text, date } = message;
-  const initial = user.charAt(0).toUpperCase(); // for avatar
+const ChatItem = ({ message, currentUser }) => {
+  const { username, text, date } = message;
+  const initial = username.charAt(0).toUpperCase(); // for avatar
   const dateString = (new Date(date)).toLocaleString();
 
   // Check if the message is from the current user.
-  const fromCurrentUser = user === username;
+  const fromCurrentUser = username === currentUser;
 
   const classes = useStyles();
   // Display differnt chat items depending on whether
@@ -76,7 +76,7 @@ const ChatItem = ({ message, username }) => {
     <div className={[classes.root, classes.received].join(' ')}>
       <Avatar className={classes.avatar}>{initial}</Avatar>
       <div>
-        <Typography variant='body1'>{user}</Typography>
+        <Typography variant='body1'>{username}</Typography>
         <Typography 
           variant='body1' 
           className={[classes.message, classes.receivedMessage].join(' ')}
@@ -92,7 +92,7 @@ const ChatItem = ({ message, username }) => {
 };
 
 const mapStateToProps = state => ({
-  username: state.auth.user.name
+  currentUser: state.auth.user.name
 });
 
 export default connect(mapStateToProps)(ChatItem);
