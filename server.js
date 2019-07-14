@@ -8,7 +8,7 @@ const path = require('path');
 const authRoute = require('./routes/auth');
 const usersRoute = require('./routes/api/users');
 const contactsRoute = require('./routes/api/contacts');
-const conversationsRoute = require('./routes/api/conversations');
+const conversationsRoute = require('./routes/api/conversations')(io);
 const messagesRoute = require('./routes/api/messages')(io);
 
 // In dev, use .env file for config vars.

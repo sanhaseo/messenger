@@ -31,7 +31,6 @@ const LoginPage = ({ isAuthenticated, register, login }) => {
 
   return (
     <Fragment>
-      <hr />
       <form onSubmit={handleRegisterSubmit}>
         <label>Register</label>
         <input 

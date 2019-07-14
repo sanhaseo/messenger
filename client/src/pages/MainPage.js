@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Main from '../components/Main';
-import Navbar from '../components/Navbar';
 
 const MainPage = ({ isAuthenticated }) => {
   if (!isAuthenticated) {
@@ -10,10 +9,7 @@ const MainPage = ({ isAuthenticated }) => {
   }
 
   return (
-    <Fragment>
-      <Navbar />
-      <Main />
-    </Fragment>
+    <Main />
   );
 };
 

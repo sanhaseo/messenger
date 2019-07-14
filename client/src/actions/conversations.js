@@ -25,7 +25,7 @@ const addPaticipants = (_id, participants) => ({
 });
 
 // Add message to given conversation(id).
-export const addMessage = (_id, message) => ({
+const addMessage = (_id, message) => ({
   type: ADD_MESSAGE,
   _id,
   message
@@ -66,21 +66,25 @@ export const addConversationToServer = (participants, username) => {
   return async dispatch => {
     try {
       // Request server to add new conversatoin.
-      const res = await axios.post('/api/conversations', participants);
+      await axios.post('/api/conversations', participants);
 
       // If successful, remove current user from participants
       // and add conversation to client state.
-      const conversation = {
-        ...res.data,
-        participants: res.data.participants.filter(
-          participant => participant !== username
-        ).sort()
-      }
-      dispatch(addConversation(conversation));
+      // const conversation = {
+      //   ...res.data,
+      //   participants: res.data.participants.filter(
+      //     participant => participant !== username
+      //   ).sort()
+      // }
+      // dispatch(addConversation(conversation));
     } catch (err) {
       console.log(err);
     }
   };
+};
+
+export const addConversationWrapper = conversation => {
+  return dispatch => dispatch(addConversation(conversation));
 };
 
 // Request server to add given message to given conversation(id).

@@ -3,10 +3,7 @@ const Schema = mongoose.Schema;
 
 // Conversation schema
 const conversationSchema = new Schema({
-  participants: {
-    type: [String],
-    unique: true
-  },
+  participants: [String],
   messages: [
     {
       username: String,

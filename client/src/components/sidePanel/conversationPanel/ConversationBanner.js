@@ -102,7 +102,7 @@ const ConversationBanner = ({
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Typography variant='h5'>Conversations</Typography>
+      <Typography variant='h6'>Conversations</Typography>
       
       <Tooltip title='New conversation'>
         <IconButton onClick={handleClickOpen}>

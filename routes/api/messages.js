@@ -13,7 +13,8 @@ module.exports = io => {
   //
   // @route   POST /api/messages
   // @access  private
-  // Push given message to given conversation.
+  // Add given message to given conversation,
+  // and emit message to connected clients.
   router.post('/', async (req, res) => {
     try {
       const { _id, message } = req.body;
@@ -30,7 +31,7 @@ module.exports = io => {
       const conversation = await Conversation.findById(_id);
       const { participants } = conversation;
       
-      // Socket io emit here...
+      // Emit message to connected clients.
       const data = { _id, message }
       io.emit('message', data);
 

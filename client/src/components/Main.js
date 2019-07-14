@@ -4,25 +4,38 @@ import ChatPanel from './chatPanel/ChatPanel'
 import SidePanel from './sidePanel/SidePanel'
 // redux
 import { connect } from 'react-redux';
-import { addMessageWrapper, getConversations } from '../actions/conversations';
+import {
+  getConversations,
+  addConversationWrapper,
+  addMessageWrapper
+} from '../actions/conversations';
 import { getContacts } from '../actions/contacts';
 // styles
 import { makeStyles } from '@material-ui/core/styles';
-
+// socket.io
 import io from 'socket.io-client';
+import { 
+  handleNewConversation, 
+  handleNewMessage 
+} from '../helpers/socketHandlers';
 
 const useStyles = makeStyles({
   root: {
     width: '100vw',
     position: 'absolute',
-    top: 50,
+    top: 0,
     bottom: 0,
-    flexGrow: 1,
     display: 'flex',
   },
 });
 
-const Main = ({ username, getConversations, getContacts, addMessageWrapper }) => {
+const Main = ({ 
+  username, 
+  getConversations, 
+  getContacts, 
+  addConversationWrapper,
+  addMessageWrapper 
+}) => {
   // UNFINISHED
   // When JWT is implemented, user id in JWT should
   // be used instead of current username.
@@ -33,11 +46,14 @@ const Main = ({ username, getConversations, getContacts, addMessageWrapper }) =>
     getContacts(username);
   }, [username, getConversations, getContacts]);
   
-  // On incoming message, add message to client state.
   const socket = io();
+  // On incoming new conversation, add conversation to client state.
+  socket.on('conversation', data => {
+    handleNewConversation(data, username, addConversationWrapper);
+  });
+  // On incoming message, add message to client state.
   socket.on('message', data => {
-    const { _id, message } = data;
-    addMessageWrapper(_id, message);
+    handleNewMessage(data, addMessageWrapper);
   });
 
   const classes = useStyles();
@@ -55,5 +71,10 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getConversations, getContacts, addMessageWrapper }
+  { 
+    getConversations, 
+    getContacts, 
+    addConversationWrapper,
+    addMessageWrapper 
+  }
 )(Main);

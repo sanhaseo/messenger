@@ -7,60 +7,69 @@ const router = express.Router();
 const User = require('../../models/User');
 const Conversation = require('../../models/Conversation');
 
-// UNFINISHED
-// When JWT is implemented, user id in JWT should
-// be used instead of current username.
-//
-// @route   GET /api/conversations
-// @access  private
-// Return current user's conversations.
-router.get('/:username', async (req, res) => {
-  try {
-    const { username } = req.params;
+module.exports = io => {
+  // UNFINISHED
+  // When JWT is implemented, user id in JWT should
+  // be used instead of current username.
+  //
+  // @route   GET /api/conversations
+  // @access  private
+  // Return current user's conversations.
+  router.get('/:username', async (req, res) => {
+    try {
+      const { username } = req.params;
 
-    // Get user.
-    const user = await User.findOne({ username });
-    // Get user's conversations.
-    const conversations = await Conversation.find(
-      { _id: { $in: user.conversations } }
-    );
+      // Get user.
+      const user = await User.findOne({ username });
+      // Get user's conversations.
+      const conversations = await Conversation.find(
+        { _id: { $in: user.conversations } }
+      );
 
-    // Respond with conversations.
-    res.json(conversations);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
+      // Respond with conversations.
+      res.json(conversations);
+    } catch (err) {
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
 
-// @route   POST /api/conversations
-// @access  private
-// Create a new conversation with given participants,
-// and return the created conversation.
-router.post('/', async (req, res) => {
-  try {
-    const participants = req.body;
+  // @route   POST /api/conversations
+  // @access  private
+  // Create a new conversation with given participants,
+  // and emit conversation to connected clients.
+  router.post('/', async (req, res) => {
+    try {
+      const participants = req.body;
 
-    // Check if a conversation with the same participants already exists.
-    const conversation = await Conversation.findOne({ participants });
-    // If so, respond with the found conversation.
-    if (conversation) return res.json(conversation);
+      // Check if a conversation with the same participants already exists.
+      const conversation = await Conversation.findOne({ participants });
+      // If so, respond with the found conversation.
+      // if (conversation) return res.json(conversation);
 
-    // Elss, create a new conversation with given participants.
-    const newConversation = new Conversation({ participants });
-    await newConversation.save();
+      // If conversation exists, respond with an error.
+      if (conversation) return res.status(400).end();
 
-    // Add conversation id to each participant in the conversation
-    // plus the current user.
-    await User.updateMany(
-      { username: { $in: participants } }, 
-      { $addToSet: { conversations: newConversation._id } }
-    );
+      // Elss, create a new conversation with given participants.
+      const newConversation = new Conversation({ participants });
+      await newConversation.save();
 
-    // Respond with the new conversation.
-    res.json(newConversation);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
+      // Add conversation id to each participant in the conversation
+      // plus the current user.
+      await User.updateMany(
+        { username: { $in: participants } }, 
+        { $addToSet: { conversations: newConversation._id } }
+      );
 
-module.exports = router;
+      // Emit conversation to connected clients.
+      io.emit('conversation', newConversation);
+
+      // Respond with an OK.
+      res.end();
+    } catch (err) {
+      console.log(err)
+      res.status(500).end();
+    }
+  });
+
+  return router;
+}

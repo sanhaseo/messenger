@@ -91,7 +91,7 @@ const ContactBanner = ({ username, contacts, addContactToServer }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Typography variant='h5'>Contacts</Typography>
+      <Typography variant='h6'>Contacts</Typography>
       
       <Tooltip title='Add new contact'>
         <IconButton onClick={handleClickOpen}>
