@@ -54,12 +54,12 @@ const ConversationItem = ({
       </ListItemAvatar>
       <ListItemText
         primary={
-          <Typography noWrap={true}>
+          <Typography noWrap>
             <strong>{participantsStr}</strong>
           </Typography>
         }
         secondary={
-          <Typography noWrap={true} color='textSecondary'>
+          <Typography noWrap color='textSecondary'>
             {lastMsgText}
           </Typography>
         }

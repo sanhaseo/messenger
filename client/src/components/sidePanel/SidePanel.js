@@ -8,14 +8,24 @@ import ContactList from './contactPanel/ContactList';
 // styles
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
-    width: '30%',
+    // width: '100%',
+    height: '100vh',
     borderRight: '1px solid #c4c4c4',
     display: 'flex',
     flexDirection: 'column',
+
+    [theme.breakpoints.up('sm')]: {
+      width: '30vw',
+      flexShrink: 0,
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '100vw',
+      flexShrink: 0,
+    },
   },
-});
+}));
 
 const SidePanel = () => {
   const [tab, setTab] = useState(0);

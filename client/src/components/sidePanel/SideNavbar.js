@@ -14,13 +14,19 @@ const AntTab = withStyles({
   },
 })(Tab);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     height: 70,
     flexShrink: 0,
     borderBottom: '1px solid #c4c4c4',
+    [theme.breakpoints.down('xs')]: {
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
   },
-});
+}));
 
 const SideNavbar = ({ tab, onChange }) => {
     

@@ -29,7 +29,7 @@ const ContactItem = ({ name }) => {
       <ListItemText
         className={classes.text}
         primary={
-          <Typography noWrap={true}>
+          <Typography noWrap>
             <strong>{name}</strong>
           </Typography>
         }

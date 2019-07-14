@@ -19,15 +19,16 @@ import {
   handleNewMessage 
 } from '../helpers/socketHandlers';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100vw',
+    height: '100vh',
     position: 'absolute',
     top: 0,
     bottom: 0,
     display: 'flex',
   },
-});
+}));
 
 const Main = ({ 
   username, 
@@ -45,7 +46,7 @@ const Main = ({
     getConversations(username);
     getContacts(username);
   }, [username, getConversations, getContacts]);
-  
+
   const socket = io();
   // On incoming new conversation, add conversation to client state.
   socket.on('conversation', data => {
@@ -66,7 +67,7 @@ const Main = ({
 };
 
 const mapStateToProps = state => ({
-  username: state.auth.user.name
+  username: state.auth.user.name,
 });
 
 export default connect(

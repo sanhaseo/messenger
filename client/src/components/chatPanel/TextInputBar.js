@@ -10,7 +10,7 @@ import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(1.5),
+    padding: theme.spacing(1, 2),
     display: 'flex',
   },
   textField: {
@@ -59,7 +59,7 @@ const TextInputBar = ({
         // rowsMax='4'
         className={classes.textField}
       />
-      <IconButton type='submit' color='primary' aria-label='Send'>
+      <IconButton type='submit' color='primary'>
         <SendIcon />
       </IconButton>
     </form>
