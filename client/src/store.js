@@ -5,7 +5,7 @@ import rootReducer from './reducers';
 const defaultState = {
   auth: {
     isAuthenticated: false,
-    user: {}
+    username: null
   },
   error: { message: null },
   contacts: [],

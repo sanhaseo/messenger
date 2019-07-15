@@ -45,12 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ConversationBanner = ({
-  username,
-  contacts, 
-  conversations, 
-  addConversationToServer 
-}) => {
+const ConversationBanner = ({ username, contacts, conversations }) => {
   // Dialog open state.
   const [open, setOpen] = useState(false);
   // Keep track of the checked items.
@@ -94,7 +89,7 @@ const ConversationBanner = ({
   // given participants (+ current user).
   const handleConfirm = () => {
     const participants = [...checked, username].sort();
-    addConversationToServer(participants, username);
+    addConversationToServer(participants);
     setOpen(false);
     setChecked([]);
   };
@@ -154,16 +149,9 @@ const ConversationBanner = ({
 };
 
 const mapStateToProps = state => ({
-  username: state.auth.user.name,
+  username: state.auth.username,
   contacts: state.contacts,
   conversations: state.conversations
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   addConversation: conversation => dispatch(addConversation(conversation))
-// });
-
-export default connect(
-  mapStateToProps, 
-  { addConversationToServer }
-)(ConversationBanner);
+export default connect(mapStateToProps)(ConversationBanner);

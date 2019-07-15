@@ -2,20 +2,20 @@ import { SET_CURRENT_USER, CLEAR_USER } from '../actions/actionTypes';
 
 const defaultState = {
   isAuthenticated: false,
-  user: {}
+  username: null
 };
 
 const auth = (state = defaultState, action) => {
   switch (action.type) {
     case SET_CURRENT_USER:
       return {
-        isAuthenticated: !!Object.keys(action.user).length,
-        user: action.user
+        isAuthenticated: !!action.username,
+        username: action.username
       };
     case CLEAR_USER:
       return {
         isAuthenticated: false,
-        user: {}
+        user: null
       };
     default:
       return state;

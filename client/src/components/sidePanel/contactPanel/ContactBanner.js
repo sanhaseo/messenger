@@ -5,9 +5,7 @@
 import React, { useState } from 'react';
 // redux
 import { connect } from 'react-redux';
-import { addContactToServer } from '../../../actions/contacts';
-// helpers
-import searchUserInDB from '../../../helpers/searchUserInDB';
+import { addContactToServer, searchUser } from '../../../actions/contacts';
 // styles
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -72,20 +70,17 @@ const ContactBanner = ({ username, contacts, addContactToServer }) => {
   const handleSubmit = async event => {
     event.preventDefault();
     // Search database for the user.
-    const name = searchString;
-    const userExists = await searchUserInDB(name);
+    const userToAdd = searchString;
+    const userExists = await searchUser(userToAdd);
 
-    setSearchResult({ userExists, name });
+    setSearchResult({ userExists, userToAdd });
   };
 
-  // UNFINISHED
-  // When JWT is implemented, user id in JWT should
-  // be used instead of current username.
-  //
   // Handle add button click.
-  const handleClickAdd = name => {
+  const handleClickAdd = userToAdd => {
     // Request server to add searched user to contacts.
-    addContactToServer(name, username);
+    addContactToServer(userToAdd);
+    handleClose();
   };
 
   const classes = useStyles();
@@ -122,7 +117,7 @@ const ContactBanner = ({ username, contacts, addContactToServer }) => {
             {// User not found.
               searchResult !== null && !searchResult.userExists && (
                 <DialogContentText color='secondary'>
-                  '{searchResult.name}' was not found.
+                  '{searchResult.userToAdd}' was not found.
                 </DialogContentText>
               )
             }
@@ -130,9 +125,9 @@ const ContactBanner = ({ username, contacts, addContactToServer }) => {
               searchResult !== null && searchResult.userExists && (
                 <React.Fragment>
                   <Avatar>
-                    {searchResult.name.charAt(0).toUpperCase()}
+                    {searchResult.userToAdd.charAt(0).toUpperCase()}
                   </Avatar>
-                  <Typography variant='h6'>{searchResult.name}</Typography>
+                  <Typography variant='h6'>{searchResult.userToAdd}</Typography>
                 </React.Fragment>
               )
             }
@@ -146,10 +141,10 @@ const ContactBanner = ({ username, contacts, addContactToServer }) => {
               <Button 
                 color='primary'
                 disabled={
-                  searchResult.name === username 
-                  || contacts.includes(searchResult.name)
+                  searchResult.userToAdd === username 
+                  || contacts.includes(searchResult.userToAdd)
                 }
-                onClick={() => handleClickAdd(searchResult.name)}
+                onClick={() => handleClickAdd(searchResult.userToAdd)}
               >
                 Add Contact
               </Button>
@@ -162,7 +157,7 @@ const ContactBanner = ({ username, contacts, addContactToServer }) => {
 };
 
 const mapStateToProps = state => ({
-  username: state.auth.user.name,
+  username: state.auth.username,
   contacts: state.contacts
 });
 

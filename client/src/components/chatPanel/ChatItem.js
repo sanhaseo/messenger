@@ -92,7 +92,7 @@ const ChatItem = ({ message, currentUser }) => {
 };
 
 const mapStateToProps = state => ({
-  currentUser: state.auth.user.name
+  currentUser: state.auth.username
 });
 
 export default connect(mapStateToProps)(ChatItem);

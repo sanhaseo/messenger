@@ -31,17 +31,15 @@ const addMessage = (_id, message) => ({
   message
 });
 
-// UNFINISHED
-// When JWT is implemented, user id in JWT should
-// be used instead of current username.
-// Handle error.
-//
 // Request server for current user's conversations.
 export const getConversations = username => {
   return async dispatch => {
     try {
       // Request server to get all conversations for current user.
-      const res = await axios.get(`/api/conversations/${username}`);
+      const res = await axios.get(
+        '/api/conversations/',
+        { withCredentials: true }
+      );
 
       // Remove current user from each participants array.
       const conversations = res.data.map(conversation => ({
@@ -58,29 +56,20 @@ export const getConversations = username => {
   };
 };
 
-// UNFINISHED
-// Handle error
-//
-// Add a new conversation with given participants on server.
-export const addConversationToServer = (participants, username) => {
-  return async dispatch => {
-    try {
-      // Request server to add new conversatoin.
-      await axios.post('/api/conversations', participants);
+// Add a new conversation with given participants to server.
+// Does not dispatch any action, since response will be emitted via socket.io.
+export const addConversationToServer = async participants => {
+  try {
+    // Request server to add new conversatoin.
+    await axios.post(
+      '/api/conversations', 
+      participants,
+      { withCredentials: true }
+    );
 
-      // If successful, remove current user from participants
-      // and add conversation to client state.
-      // const conversation = {
-      //   ...res.data,
-      //   participants: res.data.participants.filter(
-      //     participant => participant !== username
-      //   ).sort()
-      // }
-      // dispatch(addConversation(conversation));
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const addConversationWrapper = conversation => {
@@ -88,18 +77,20 @@ export const addConversationWrapper = conversation => {
 };
 
 // Request server to add given message to given conversation(id).
-export const addMessageToServer = (_id, message) => {
-  return async dispatch => {
-    try {
-      const data = { _id, message };
+// Does not dispatch any action, since response will be emitted via socket.io.
+export const addMessageToServer = async (_id, message) => {
+  try {
+    const data = { _id, message };
 
-      const res = await axios.post('/api/messages', data);
+    await axios.post(
+      '/api/messages', 
+      data,
+      { withCredentials: true }
+    );
 
-      // dispatch(addMessage(id, message));
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const addMessageWrapper = (_id, message) => {

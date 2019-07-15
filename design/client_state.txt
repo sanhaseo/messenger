@@ -1,6 +1,6 @@
 auth: {
   isAuthenticated: boolean,
-  user: { name: string },
+  username: string,
 }
 
 error: { message: string }

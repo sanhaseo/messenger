@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 // components
 import ChatPanelHeader from './ChatPanelHeader';
 import ChatArea from './ChatArea';
-import TextInputBar from './TextInputBar';
+import ChatInputBar from './ChatInputBar';
 // redux
 import { connect } from 'react-redux';
 // styles
@@ -52,7 +52,7 @@ const ChatPanel = ({ currentConversation }) => {
       <div className={classes.root}>
         <ChatPanelHeader />
         <ChatArea />
-        <TextInputBar />
+        <ChatInputBar />
       </div>
     );
   }

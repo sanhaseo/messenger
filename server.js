@@ -4,6 +4,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const mongoose = require('mongoose');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 // Routes
 const authRoute = require('./routes/auth');
 const usersRoute = require('./routes/api/users');
@@ -19,6 +20,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Middlewares.
 app.use(express.json());
+app.use(cookieParser());
 
 // Connect to MongoDB.
 mongoose.connect(process.env.MONGODB_URI, {

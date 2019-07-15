@@ -1,23 +1,18 @@
-// Bypass token verificatoin for now...
-
 const express = require('express');
 const router = express.Router();
+const verifyToken = require('../../middlewares/verifyToken');
 
 // User and Conversation models
 const User = require('../../models/User');
 const Conversation = require('../../models/Conversation');
 
 module.exports = io => {
-  // UNFINISHED
-  // When JWT is implemented, user id in JWT should
-  // be used instead of current username.
-  //
   // @route   GET /api/conversations
   // @access  private
   // Return current user's conversations.
-  router.get('/:username', async (req, res) => {
+  router.get('/', verifyToken, async (req, res) => {
     try {
-      const { username } = req.params;
+      const { username } = req;
 
       // Get user.
       const user = await User.findOne({ username });
@@ -29,7 +24,7 @@ module.exports = io => {
       // Respond with conversations.
       res.json(conversations);
     } catch (err) {
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).end();
     }
   });
 
@@ -37,14 +32,12 @@ module.exports = io => {
   // @access  private
   // Create a new conversation with given participants,
   // and emit conversation to connected clients.
-  router.post('/', async (req, res) => {
+  router.post('/', verifyToken, async (req, res) => {
     try {
       const participants = req.body;
 
       // Check if a conversation with the same participants already exists.
       const conversation = await Conversation.findOne({ participants });
-      // If so, respond with the found conversation.
-      // if (conversation) return res.json(conversation);
 
       // If conversation exists, respond with an error.
       if (conversation) return res.status(400).end();

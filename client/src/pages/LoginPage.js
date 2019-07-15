@@ -5,51 +5,81 @@ import { register, login } from '../actions/auth';
 
 const LoginPage = ({ isAuthenticated, register, login }) => {
   // test
-  const [input, setInput] = useState({ register: '', login: '' });
+  const [registerInput, setRegisterInput] = useState({ 
+    username: '', 
+    password: '' 
+  });
+  const [loginInput, setLoginInput] = useState({
+    username: '',
+    password: ''
+  });
 
   if (isAuthenticated) {
     return <Redirect to='/' />;
   }
 
   // test
-  const handleChange = event => {
+  const handleRegisterChange = event => {
     const { name, value } = event.target;
-    setInput({ ...input, [name]: value });
+    setRegisterInput({ ...registerInput, [name]: value });
+  };
+  // test
+  const handleLoginChange = event => {
+    const { name, value } = event.target;
+    setLoginInput({ ...loginInput, [name]: value });
   };
   // test
   const handleRegisterSubmit = event => {
     event.preventDefault();
-    const user = { username: input.register };
-    register(user);
+    register(registerInput);
   };
   // test
   const handleLoginSubmit = event => {
     event.preventDefault();
-    const user = { username: input.login };
-    login(user);
+    login(loginInput);
   };
 
   return (
     <Fragment>
+      <h4>Register</h4>
       <form onSubmit={handleRegisterSubmit}>
-        <label>Register</label>
+        <label>Username</label>
         <input 
           type='text' 
-          name='register' 
-          value={input.register} 
-          onChange={handleChange} 
+          name='username' 
+          value={registerInput.username} 
+          onChange={handleRegisterChange} 
         />
+        <br />
+        <label>Password</label>
+        <input 
+          type='password' 
+          name='password' 
+          value={registerInput.password} 
+          onChange={handleRegisterChange} 
+        />
+        <br />
         <button type='submit'>Register</button>
       </form>
       <hr />
+      <h4>Login</h4>
       <form onSubmit={handleLoginSubmit}>
-        <label>Login</label>
+      <label>Username</label>
         <input 
           type='text' 
-          name='login'
-          value={input.login} 
-          onChange={handleChange} 
+          name='username' 
+          value={loginInput.username} 
+          onChange={handleLoginChange} 
         />
+        <br />
+        <label>Password</label>
+        <input 
+          type='password' 
+          name='password' 
+          value={loginInput.password} 
+          onChange={handleLoginChange} 
+        />
+        <br />
         <button type='submit'>Login</button>
       </form>
     </Fragment>

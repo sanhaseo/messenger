@@ -37,14 +37,10 @@ const Main = ({
   addConversationWrapper,
   addMessageWrapper 
 }) => {
-  // UNFINISHED
-  // When JWT is implemented, user id in JWT should
-  // be used instead of current username.
-  //
   // On mount, get user data from server.
   useEffect(() => {
     getConversations(username);
-    getContacts(username);
+    getContacts();
   }, [username, getConversations, getContacts]);
 
   const socket = io();
@@ -67,7 +63,7 @@ const Main = ({
 };
 
 const mapStateToProps = state => ({
-  username: state.auth.user.name,
+  username: state.auth.username
 });
 
 export default connect(

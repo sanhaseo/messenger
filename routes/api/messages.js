@@ -1,21 +1,16 @@
-// Bypass token verificatoin for now...
-
 const express = require('express');
 const router = express.Router();
+const verifyToken = require('../../middlewares/verifyToken');
 
 // Conversation model
 const Conversation = require('../../models/Conversation');
 
 module.exports = io => {
-  // UNFINISHED
-  // Verify token.
-  // Emit message to connected clietns.
-  //
   // @route   POST /api/messages
   // @access  private
-  // Add given message to given conversation,
+  // Add given message to given conversation, 
   // and emit message to connected clients.
-  router.post('/', async (req, res) => {
+  router.post('/', verifyToken, async (req, res) => {
     try {
       const { _id, message } = req.body;
 
@@ -25,13 +20,8 @@ module.exports = io => {
         { $push: { messages: message } },
         { new: true }
       );
-
-      // If successful, emit message to conversation participants
-      // that are connected.
-      const conversation = await Conversation.findById(_id);
-      const { participants } = conversation;
       
-      // Emit message to connected clients.
+      // If successful, emit message to connected clients.
       const data = { _id, message }
       io.emit('message', data);
 

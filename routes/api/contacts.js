@@ -1,23 +1,16 @@
-// Bypass token verificatoin for now...
-
 const express = require('express');
 const router = express.Router();
+const verifyToken = require('../../middlewares/verifyToken');
 
 // User model
 const User = require('../../models/User');
 
-// UNFINISHED
-// When JWT is implemented,
-// use user id in JWT instead of currentUser.
-// Change method back to get '/'.
-// Verify token.
-//
 // @route   GET /api/contacts
 // @access  private
 // Get current user's contacts.
-router.get('/:username', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   try {
-    const { username } = req.params;
+    const { username } = req;
     // Find user.
     const user = await User.findOne({ username });
     
@@ -26,25 +19,21 @@ router.get('/:username', async (req, res) => {
     // Else respond with contacts.
     res.json(user.contacts);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).end();
   }
 });
 
-// UNFINISHED
-// When JWT is implemented,
-// use user id in JWT instead of currentUser.
-// Verify token.
-//
 // @route   POST /api/contacts
 // @access  private
 // Add given user to current user's contacts.
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
-    const { name, currentUser } = req.body;
+    const { username } = req; // current user
+    const { userToAdd } = req.body;
     // Add given username to current user's contacts.
     const query = await User.updateOne(
-      { username: currentUser }, 
-      { $addToSet: { contacts: name } }
+      { username }, 
+      { $addToSet: { contacts: userToAdd } }
     );
 
     // If user not found, respond with an error.
@@ -53,7 +42,7 @@ router.post('/', async (req, res) => {
     res.end();
 
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).end();
   }
 });
 

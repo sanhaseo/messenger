@@ -19,11 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const TextInputBar = ({ 
-  username, 
-  currentConversation, 
-  addMessageToServer 
-}) => {
+const ChatInputBar = ({ username, currentConversation }) => {
   // Current input text.
   const [text, setText] = useState('');
 
@@ -55,8 +51,6 @@ const TextInputBar = ({
         onChange={handleChange}
         autoFocus
         placeholder='Type a message'
-        // multiline
-        // rowsMax='4'
         className={classes.textField}
       />
       <IconButton type='submit' color='primary'>
@@ -67,8 +61,8 @@ const TextInputBar = ({
 };
 
 const mapStateToProps = state => ({
-  username: state.auth.user.name,
+  username: state.auth.username,
   currentConversation: state.currentConversation
 });
 
-export default connect(mapStateToProps, { addMessageToServer })(TextInputBar);
+export default connect(mapStateToProps)(ChatInputBar);

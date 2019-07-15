@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 const App = ({ verifyUser }) => {
   // Request server to verify JWT.
   // If successful, set current user.
-  // useEffect(() => {verifyUser()}, [verifyUser]);
+  useEffect(() => {verifyUser()}, [verifyUser]);
   
   const classes = useStyles();
   return (

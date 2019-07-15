@@ -1,9 +1,9 @@
 import { SET_CURRENT_USER, CLEAR_USER } from '../actions/actionTypes';
 import axios from 'axios';
 
-const setCurrentUser = user => ({
+const setCurrentUser = username => ({
   type: SET_CURRENT_USER,
-  user
+  username
 });
 
 const clearUser = () => ({
@@ -11,8 +11,7 @@ const clearUser = () => ({
 });
 
 // UNFINISHED
-// Request server to register user with
-// the given data.
+// Request server to register user with given username and password.
 // data should be { username, password }
 export const register = data => {
   return async dispatch => {
@@ -21,7 +20,7 @@ export const register = data => {
       const res = await axios.post('/auth/register', data);
 
       // If register successful, set current user.
-      dispatch(setCurrentUser(res.data));
+      dispatch(setCurrentUser(res.data.username));
 
       // Clear error here...
     } catch (err) {
@@ -35,18 +34,16 @@ export const register = data => {
 };
 
 // UNFINISHED
-// Request server to login user with
-// the given credentials.
+// Request server to login user with given username and password.
 // data should be { username, password }
 export const login = data => {
   return async dispatch => {
     try {
-
       // Server request.
       const res = await axios.post('/auth/login', data);
 
       // If login successful, set current user.
-      dispatch(setCurrentUser(res.data));
+      dispatch(setCurrentUser(res.data.username));
 
       // Clear error here...
     } catch (err) {
@@ -59,17 +56,22 @@ export const login = data => {
   };
 };
 
-// Request server to verify the JWT.
-// If successfully verified, set current user.
+// Request server to verify JWT.
+// If successful, set current user.
 export const verifyUser = () => {
   return async dispatch => {
     try {
+      // Request server to verify JWT.
+      const res = await axios.get(
+        '/auth/verify',
+        { withCredentials: true }
+      );
 
-      // Server request goes here...
+      // If successful, set current user.
+      if (res.data.isAuthenticated) dispatch(setCurrentUser(res.data.username));
+      // Else, clear user.
+      else dispatch(clearUser());
 
-      // test
-      const user = { name: 'sanha' };
-      dispatch(setCurrentUser(user));
     } catch (err) {
       console.log(err);
     }

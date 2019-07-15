@@ -1,19 +1,15 @@
-// Bypass token verificatoin for now...
-
 const express = require('express');
 const router = express.Router();
+const verifyToken = require('../../middlewares/verifyToken');
 
 // User model
 const User = require('../../models/User');
 
-// UNFINISHED
-// Verify token.
-//
 // @route   GET /api/users/:username
 // @access  private
 // If user exists, respond with { username }.
 // Else respond with an error.
-router.get('/:username', async (req, res) => {
+router.get('/:username', verifyToken, async (req, res) => {
   try {
     const { username } = req.params;
 
@@ -29,7 +25,7 @@ router.get('/:username', async (req, res) => {
     // such as profile pic.
     return res.json({ username });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).end();
   }
 });
 

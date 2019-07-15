@@ -17,8 +17,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ContactItem = ({ name }) => {
-  const initial = name.charAt(0).toUpperCase();  // for avatar
+const ContactItem = ({ username }) => {
+  const initial = username.charAt(0).toUpperCase();  // for avatar
   
   const classes = useStyles();
   return (
@@ -30,7 +30,7 @@ const ContactItem = ({ name }) => {
         className={classes.text}
         primary={
           <Typography noWrap>
-            <strong>{name}</strong>
+            <strong>{username}</strong>
           </Typography>
         }
       />
