@@ -5,7 +5,6 @@ import { setCurrentConversation } from '../../actions/currentConversation';
 // styles
 import { makeStyles } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
@@ -13,7 +12,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     height: 70,
     padding: theme.spacing(1, 2),
-    // borderBottom: '1px solid #c4c4c4',
     flexShrink: 0,
     display: 'flex',
     justifyContent: 'space-between',
@@ -42,9 +40,7 @@ const ChatPanelHeader = ({
         {participantsStr}
       </Typography>
 
-      <IconButton color='primary'>
-        <AccountCircleIcon />
-      </IconButton>
+      <div style={{width: 48}}></div>
     </div>
   );
 };

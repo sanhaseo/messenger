@@ -8,10 +8,12 @@ export const CLEAR_ERROR = 'CLEAR_ERROR';
 
 // contacts
 export const SET_CONTACTS = 'SET_CONTACTS';
+export const CLEAR_CONTACTS = 'CLEAR_CONTACTS';
 export const ADD_CONTACT = 'ADD_CONTACT';
 
 // conversations
 export const SET_CONVERSATIONS = 'SET_CONVERSATIONS';
+export const CLEAR_CONVERSATIONS = 'CLEAR_CONVERSATIONS';
 export const ADD_CONVERSATION = 'ADD_CONVERSATION';
 export const ADD_PARTICIPANTS = 'ADD_PARTICIPANTS';
 export const ADD_MESSAGE = 'ADD_MESSAGE';

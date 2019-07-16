@@ -82,6 +82,16 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// @route   GET auth/logout
+// @access  Public
+// Clear cookie to logout.
+router.get('/logout', (req, res) => {
+  const token = req.cookies.authToken;
+  res.clearCookie('authToken', token, {
+    httpOnly: true
+  }).end();
+});
+
 // @route   GET /auth/verify
 // @access  public
 // Verify that incoming request from client contains cookie with valid JWT.
@@ -94,7 +104,7 @@ router.get('/verify', async (req, res) => {
     const { username } = payload;
 
     const user = await User.findOne({ username });
-    
+
     res.json({ 
       isAuthenticated: true,
       username: user.username

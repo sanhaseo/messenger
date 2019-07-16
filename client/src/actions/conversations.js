@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   SET_CONVERSATIONS, 
+  CLEAR_CONVERSATIONS,
   ADD_CONVERSATION, 
   ADD_PARTICIPANTS,
   ADD_MESSAGE
@@ -9,6 +10,10 @@ import {
 const setConversations = conversations => ({
   type: SET_CONVERSATIONS,
   conversations
+});
+
+const clearConversations = () => ({
+  type: CLEAR_CONVERSATIONS
 });
 
 // Add given conversation to client state.
@@ -56,6 +61,11 @@ export const getConversations = username => {
   };
 };
 
+// For redux-thunk.
+export const clearConversationsWrapper = () => {
+  return dispatch => dispatch(clearConversations());
+};
+
 // Add a new conversation with given participants to server.
 // Does not dispatch any action, since response will be emitted via socket.io.
 export const addConversationToServer = async participants => {
@@ -72,6 +82,7 @@ export const addConversationToServer = async participants => {
   }
 };
 
+// For redux-thunk.
 export const addConversationWrapper = conversation => {
   return dispatch => dispatch(addConversation(conversation));
 };

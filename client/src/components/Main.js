@@ -37,13 +37,16 @@ const Main = ({
   addConversationWrapper,
   addMessageWrapper 
 }) => {
+  const socket = io();
+
   // On mount, get user data from server.
   useEffect(() => {
     getConversations(username);
     getContacts();
+    // Before unmount, disconnect socket.
+    return () => socket.disconnect();
   }, [username, getConversations, getContacts]);
 
-  const socket = io();
   // On incoming new conversation, add conversation to client state.
   socket.on('conversation', data => {
     handleNewConversation(data, username, addConversationWrapper);

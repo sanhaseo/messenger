@@ -1,9 +1,13 @@
 import axios from 'axios';
-import { SET_CONTACTS, ADD_CONTACT } from './actionTypes';
+import { SET_CONTACTS, CLEAR_CONTACTS, ADD_CONTACT } from './actionTypes';
 
 const setContacts = contacts => ({
   type: SET_CONTACTS,
   contacts
+});
+
+const clearContacts = () => ({
+  type: CLEAR_CONTACTS
 });
 
 const addContact = contact => ({
@@ -27,6 +31,11 @@ export const getContacts = () => {
       console.log(err);
     }
   };
+};
+
+// For redux-thunk.
+export const clearContactsWrapper = () => {
+  return dispatch => dispatch(clearContacts());
 };
 
 // Add given user to the current user's contact list.

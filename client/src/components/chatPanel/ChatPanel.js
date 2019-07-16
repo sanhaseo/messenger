@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import ChatPanelHeader from './ChatPanelHeader';
 import ChatArea from './ChatArea';
 import ChatInputBar from './ChatInputBar';
+import MenuButton from './MenuButton';
 // redux
 import { connect } from 'react-redux';
 // styles
@@ -13,7 +14,6 @@ import Hidden from '@material-ui/core/Hidden';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // padding: theme.spacing(1, 2),
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
@@ -45,6 +45,7 @@ const ChatPanel = ({ currentConversation }) => {
     panelContent = (
       <div className={classes.root}>
         <ChatOutlinedIcon className={classes.icon} />
+        <MenuButton />
       </div>
     );
   } else {  // Else display current conversation.
@@ -53,6 +54,7 @@ const ChatPanel = ({ currentConversation }) => {
         <ChatPanelHeader />
         <ChatArea />
         <ChatInputBar />
+        <MenuButton />
       </div>
     );
   }

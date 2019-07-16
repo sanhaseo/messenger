@@ -1,5 +1,6 @@
 import {
   SET_CONVERSATIONS,
+  CLEAR_CONVERSATIONS,
   ADD_CONVERSATION,
   ADD_PARTICIPANTS,
   ADD_MESSAGE
@@ -11,6 +12,8 @@ const conversations = (state = defaultState, action) => {
   switch (action.type) {
     case SET_CONVERSATIONS:
       return action.conversations;
+    case CLEAR_CONVERSATIONS:
+      return [];
     case ADD_CONVERSATION:
       return [...state, action.conversation]; // TODO: sort by date
     case ADD_PARTICIPANTS:

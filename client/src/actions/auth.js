@@ -56,6 +56,21 @@ export const login = data => {
   };
 };
 
+// Request server to clear cookie.
+export const logout = () => {
+  return async dispatch => {
+    try {
+      await axios.get(
+        '/auth/logout',
+        { withCredentials: true }
+      );
+      dispatch(clearUser());
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 // Request server to verify JWT.
 // If successful, set current user.
 export const verifyUser = () => {

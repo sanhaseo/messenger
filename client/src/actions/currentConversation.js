@@ -5,3 +5,8 @@ export const setCurrentConversation = id => ({
   type: SET_CURRENT_CONVERSATION,
   id
 });
+
+// For redux-thunk.
+export const setCurrentConversationWrapper = id => {
+  return dispatch => dispatch(setCurrentConversation(id));
+};
