@@ -5,11 +5,11 @@ const verifyToken = require('../../middlewares/verifyToken');
 // User model
 const User = require('../../models/User');
 
-// @route   GET /api/users/:username
+// @route   GET /api/users/search/:username
 // @access  private
 // If user exists, respond with { username }.
 // Else respond with an error.
-router.get('/:username', verifyToken, async (req, res) => {
+router.get('/search/:username', verifyToken, async (req, res) => {
   try {
     const { username } = req.params;
 
@@ -24,6 +24,47 @@ router.get('/:username', verifyToken, async (req, res) => {
     // we can respond with additional user info
     // such as profile pic.
     return res.json({ username });
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+// @route   GET /api/users/contacts
+// @access  private
+// Get current user's contacts.
+router.get('/contacts', verifyToken, async (req, res) => {
+  try {
+    const { username } = req;
+    // Find user.
+    const user = await User.findOne({ username });
+    
+    // If user not found, respond with an error.
+    if (!user) return res.status(400).end();
+    // Else respond with contacts.
+    res.json(user.contacts);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+// @route   POST /api/users/contacts
+// @access  private
+// Add given user to current user's contacts.
+router.post('/contacts', verifyToken, async (req, res) => {
+  try {
+    const { username } = req; // current user
+    const { userToAdd } = req.body;
+    // Add given username to current user's contacts.
+    const query = await User.updateOne(
+      { username }, 
+      { $addToSet: { contacts: userToAdd } }
+    );
+
+    // If user not found, respond with an error.
+    if (!query.n) return res.status(400).end();
+    // Else respond with an OK.
+    res.end();
+
   } catch (err) {
     res.status(500).end();
   }

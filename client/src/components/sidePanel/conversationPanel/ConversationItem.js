@@ -47,7 +47,7 @@ const ConversationItem = ({
   let lastMsgDate = '';
   if (messages.length > 0) {
     const lastMsg = messages[messages.length - 1];
-    lastMsgText = lastMsg.text;
+    lastMsgText = `${lastMsg.username}: ${lastMsg.text}`;
     lastMsgDate = (new Date(lastMsg.date)).toLocaleDateString();
   }
   // Number of unread messages.

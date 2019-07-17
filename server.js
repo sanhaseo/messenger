@@ -8,9 +8,7 @@ const cookieParser = require('cookie-parser');
 // Routes
 const authRoute = require('./routes/auth');
 const usersRoute = require('./routes/api/users');
-const contactsRoute = require('./routes/api/contacts');
 const conversationsRoute = require('./routes/api/conversations')(io);
-const messagesRoute = require('./routes/api/messages')(io);
 
 // In dev, use .env file for config vars.
 if (process.env.NODE_ENV !== 'production') {
@@ -40,9 +38,7 @@ io.on('connection', socket => {
 // Use routes.
 app.use('/auth', authRoute);
 app.use('/api/users', usersRoute);
-app.use('/api/contacts', contactsRoute);
 app.use('/api/conversations', conversationsRoute);
-app.use('/api/messages', messagesRoute);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {

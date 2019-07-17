@@ -106,7 +106,7 @@ export const addMessageToServer = async (_id, message) => {
     const data = { _id, message };
 
     await axios.post(
-      '/api/messages', 
+      '/api/conversations/messages', 
       data,
       { withCredentials: true }
     );

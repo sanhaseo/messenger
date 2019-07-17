@@ -15,7 +15,6 @@ Built with
 - material-ui
 
 Todo
-- Fix api design
 - Implement register and login pages
 
 Future implementations

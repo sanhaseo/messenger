@@ -48,8 +48,6 @@ const Main = ({
     return () => socket.disconnect();
   }, [getConversations, getContacts]);
 
-  console.log('main mounted')
-
   // On incoming new conversation, add conversation to client state.
   socket.on('conversation', data => {
     handleNewConversation(data, addConversationWrapper);

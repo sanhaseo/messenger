@@ -21,7 +21,7 @@ export const getContacts = () => {
     try {
       // Request server to get all contacts.
       const res = await axios.get(
-        '/api/contacts/',
+        '/api/users/contacts',
         { withCredentials: true }
       );
       
@@ -46,7 +46,7 @@ export const addContactToServer = userToAdd => {
       // Request server to add contact.
       const data = { userToAdd }
       await axios.post(
-        '/api/contacts', 
+        '/api/users/contacts', 
         data,
         { withCredentials: true }
       );
@@ -64,7 +64,7 @@ export const addContactToServer = userToAdd => {
 // Does not dispatch any action.
 export const searchUser = async username => {
   try {
-    const userExists = await axios.get(`/api/users/${username}`);
+    const userExists = await axios.get(`/api/users/search/${username}`);
     if (userExists) return true;
     return false;
   } catch (err) {
