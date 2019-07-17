@@ -32,7 +32,7 @@ const SidePanel = () => {
   const handleChange = (event, newTab) => {
     setTab(newTab);
   };
-  
+
   const classes = useStyles();
   return (
     <div className={classes.root}>

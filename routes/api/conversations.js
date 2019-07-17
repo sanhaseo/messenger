@@ -17,12 +17,23 @@ module.exports = io => {
       // Get user.
       const user = await User.findOne({ username });
       // Get user's conversations.
+      const conversationIds = user.conversations.map(
+        conversation => conversation.conversationId
+      );
       const conversations = await Conversation.find(
-        { _id: { $in: user.conversations } }
+        { _id: { $in: conversationIds } }
+      );
+
+      // Include last read message index for each conversation.
+      const conversationsWithInfo = conversations.map(
+        (conversation, index) => ({
+          ...conversation._doc,
+          lastMessageRead: user.conversations[index].lastMessageRead
+        })
       );
 
       // Respond with conversations.
-      res.json(conversations);
+      res.json(conversationsWithInfo);
     } catch (err) {
       res.status(500).end();
     }
@@ -48,18 +59,25 @@ module.exports = io => {
 
       // Add conversation id to each participant in the conversation
       // plus the current user.
+      const conversationInfo = { 
+        conversationId: newConversation._id, 
+        lastMessageRead: 0 
+      };
       await User.updateMany(
         { username: { $in: participants } }, 
-        { $addToSet: { conversations: newConversation._id } }
+        { $addToSet: { conversations: conversationInfo } }
       );
 
       // Emit conversation to connected clients.
-      io.emit('conversation', newConversation);
+      const newConversationWithInfo = {
+        ...newConversation._doc,
+        lastMessageRead: 0
+      };
+      io.emit('conversation', newConversationWithInfo);
 
       // Respond with an OK.
       res.end();
     } catch (err) {
-      console.log(err)
       res.status(500).end();
     }
   });

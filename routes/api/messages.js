@@ -18,7 +18,7 @@ module.exports = io => {
       await Conversation.findByIdAndUpdate(
         _id, 
         { $push: { messages: message } },
-        { new: true }
+        { new: true } // return modified document
       );
       
       // If successful, emit message to connected clients.

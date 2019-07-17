@@ -10,11 +10,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles(theme => ({
   root: {
     height: 70,
-    // borderBottom: '1px solid #c4c4c4',
   },
-  text: {
-    marginTop: theme.spacing(2),
-  }
 }));
 
 const ContactItem = ({ username }) => {
@@ -22,12 +18,11 @@ const ContactItem = ({ username }) => {
   
   const classes = useStyles();
   return (
-    <ListItem button alignItems="flex-start" className={classes.root}>
+    <ListItem button alignItems="center" className={classes.root}>
       <ListItemAvatar>
         <Avatar>{initial}</Avatar>
       </ListItemAvatar>
       <ListItemText
-        className={classes.text}
         primary={
           <Typography noWrap>
             <strong>{username}</strong>

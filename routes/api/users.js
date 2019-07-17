@@ -29,4 +29,28 @@ router.get('/:username', verifyToken, async (req, res) => {
   }
 });
 
+// @route   PUT /api/users/conversations
+// @access  private
+// Update the last message read for given conversation(id).
+router.put('/conversations', verifyToken, async (req, res) => {
+  try {
+    const { username } = req;
+
+    // _id:             conversation id
+    // lastMessageRead: index of last message read
+    const {_id, lastMessageRead} = req.body;
+
+    // Update last message read for given conversation(id).
+    await User.updateOne(
+      { username, 'conversations.conversationId': _id },
+      { $set: { 'conversations.$.lastMessageRead': lastMessageRead } }
+    );
+
+    // Respond with an OK.
+    res.end();
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
 module.exports = router;

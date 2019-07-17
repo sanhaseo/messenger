@@ -1,9 +1,9 @@
 import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-import { login } from '../actions/auth';
+import { register } from '../actions/auth';
 
-const LoginPage = ({ isAuthenticated, login }) => {
+const RegisterPage = ({ isAuthenticated, register }) => {
   // test
   const [input, setInput] = useState({ 
     username: '', 
@@ -22,12 +22,12 @@ const LoginPage = ({ isAuthenticated, login }) => {
   // test
   const handleSubmit = event => {
     event.preventDefault();
-    login(input);
+    register(input);
   };
 
   return (
     <Fragment>
-      <h4>Login</h4>
+      <h4>Register</h4>
       <form onSubmit={handleSubmit}>
         <label>Username</label>
         <input 
@@ -45,9 +45,9 @@ const LoginPage = ({ isAuthenticated, login }) => {
           onChange={handleChange} 
         />
         <br />
-        <button type='submit'>Login</button>
+        <button type='submit'>Register</button>
       </form>
-      <Link to='/register'>Don't have an account? Sign Up</Link>
+      <Link to='/login'>Already have an account? Sign In</Link>
     </Fragment>
   );
 };
@@ -56,4 +56,4 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, { login })(LoginPage);
+export default connect(mapStateToProps, { register })(RegisterPage);

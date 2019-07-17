@@ -13,7 +13,13 @@ const userSchema = new Schema({
     required: true
   },
   contacts: [String],
-  conversations: [Schema.Types.ObjectId]
+  // conversations: [Schema.Types.ObjectId]
+  conversations: [
+    {
+      conversationId: Schema.Types.ObjectId,
+      lastMessageRead: Number
+    }
+  ]
 });
 
 // User model

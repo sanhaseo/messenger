@@ -3,7 +3,8 @@ import {
   CLEAR_CONVERSATIONS,
   ADD_CONVERSATION,
   ADD_PARTICIPANTS,
-  ADD_MESSAGE
+  ADD_MESSAGE,
+  UPDATE_LAST_MESSAGE_READ
 } from '../actions/actionTypes';
 
 const defaultState = [];
@@ -35,6 +36,16 @@ const conversations = (state = defaultState, action) => {
           };
         }
         return conversation;
+      });
+    case UPDATE_LAST_MESSAGE_READ:
+      return state.map(conversation => {
+        if (conversation._id === action._id) {
+          return {
+            ...conversation,
+            lastMessageRead: action.lastMessageRead
+          };
+        }
+        return conversation
       });
     default:
       return state;

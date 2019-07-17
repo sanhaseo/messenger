@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 // redux
 import { connect } from 'react-redux';
 import { verifyUser } from './actions/auth';
@@ -33,6 +34,7 @@ const App = ({ verifyUser }) => {
         <Switch>
           <Route exact path='/' component={MainPage} />
           <Route exact path='/login' component={LoginPage} />
+          <Route exact path='/register' component={RegisterPage} />
         </Switch>
       </Router>
     </div>

@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import {
   getConversations,
   addConversationWrapper,
-  addMessageWrapper
+  addMessageWrapper,
+  updateLastMessageReadToServer
 } from '../actions/conversations';
 import { getContacts } from '../actions/contacts';
 // styles
@@ -31,29 +32,35 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Main = ({ 
-  username, 
   getConversations, 
   getContacts, 
   addConversationWrapper,
-  addMessageWrapper 
+  addMessageWrapper,
+  updateLastMessageReadToServer
 }) => {
   const socket = io();
 
   // On mount, get user data from server.
   useEffect(() => {
-    getConversations(username);
+    getConversations();
     getContacts();
     // Before unmount, disconnect socket.
     return () => socket.disconnect();
-  }, [username, getConversations, getContacts]);
+  }, [getConversations, getContacts]);
+
+  console.log('main mounted')
 
   // On incoming new conversation, add conversation to client state.
   socket.on('conversation', data => {
-    handleNewConversation(data, username, addConversationWrapper);
+    handleNewConversation(data, addConversationWrapper);
   });
   // On incoming message, add message to client state.
   socket.on('message', data => {
-    handleNewMessage(data, addMessageWrapper);
+    handleNewMessage(
+      data, 
+      addMessageWrapper,
+      updateLastMessageReadToServer
+    );
   });
 
   const classes = useStyles();
@@ -65,16 +72,13 @@ const Main = ({
   );
 };
 
-const mapStateToProps = state => ({
-  username: state.auth.username
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   { 
     getConversations, 
     getContacts, 
     addConversationWrapper,
-    addMessageWrapper 
+    addMessageWrapper,
+    updateLastMessageReadToServer 
   }
 )(Main);

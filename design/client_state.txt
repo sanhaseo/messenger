@@ -9,7 +9,7 @@ contacts: [ name, name, ... ]
 
 conversations: [
   {
-    id: id,
+    _id: _id,
     participants: [ name, name, ... ],
     messages: [
       {
@@ -23,7 +23,8 @@ conversations: [
         date: date
       },
       ...
-    ]
+    ],
+    lastMessageRead: number
   },
   ...
 ]

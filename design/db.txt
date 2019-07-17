@@ -1,13 +1,18 @@
 users: {
-  id: id,
+  _id: _id,
   username: unique string,
   password: string,
   contacts: [ username, username, ... ],
-  conversations: [ id, id, ... ]
+  conversations: [
+    {
+      conversationId: _id,
+      lastMessageRead: number
+    }
+  ]
 }
 
 conversations: {
-  id: id,
+  _id: _id,
   participants: [ username, username, ... ],
   messages: [
     {

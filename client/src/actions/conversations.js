@@ -1,10 +1,12 @@
 import axios from 'axios';
+import store from '../store';
 import {
   SET_CONVERSATIONS, 
   CLEAR_CONVERSATIONS,
   ADD_CONVERSATION, 
   ADD_PARTICIPANTS,
-  ADD_MESSAGE
+  ADD_MESSAGE,
+  UPDATE_LAST_MESSAGE_READ
 } from './actionTypes';
 
 const setConversations = conversations => ({
@@ -36,8 +38,15 @@ const addMessage = (_id, message) => ({
   message
 });
 
+// Set given conversation(id)'s last message to read in client state.
+const updateLastMessageRead = (_id, lastMessageRead) => ({
+  type: UPDATE_LAST_MESSAGE_READ,
+  _id,
+  lastMessageRead
+});
+
 // Request server for current user's conversations.
-export const getConversations = username => {
+export const getConversations = () => {
   return async dispatch => {
     try {
       // Request server to get all conversations for current user.
@@ -45,6 +54,9 @@ export const getConversations = username => {
         '/api/conversations/',
         { withCredentials: true }
       );
+
+      // Get current username.
+      const username = store.getState().auth.username;
 
       // Remove current user from each participants array.
       const conversations = res.data.map(conversation => ({
@@ -104,6 +116,29 @@ export const addMessageToServer = async (_id, message) => {
   }
 };
 
+// For redux-thunk.
 export const addMessageWrapper = (_id, message) => {
   return dispatch => dispatch(addMessage(_id, message));
+};
+
+// Request server to update the last message read for given
+// conversation(id).
+export const updateLastMessageReadToServer = (_id, lastMessageRead) => {
+  return async dispatch => {
+    try {
+      // Update last message read in client state.
+      dispatch(updateLastMessageRead(_id, lastMessageRead));
+
+      // Request server to update last message read.
+      const data = { _id, lastMessageRead };
+      await axios.put(
+        '/api/users/conversations',
+        data,
+        { withCredentials: true }
+      );
+      
+    } catch (err) {
+      console.log(err);
+    }
+  };
 };

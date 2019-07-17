@@ -3,7 +3,8 @@ Basic messenger app
 Features
 - User authentication
 - Realtime chat
-- Persistent data
+- Data persistence
+- Responsive design
 
 Built with
 - node / express
@@ -11,12 +12,13 @@ Built with
 - mongodb
 - socket.io
 - jsonwebtoken
+- material-ui
 
 Todo
+- Fix api design
 - Implement register and login pages
 
 Future implementations
-- Keep tract of unread messages
 - Display notification when event succeeds / fails
 - Ability to delete account
 - Ability to delete contacts
@@ -25,7 +27,7 @@ Future implementations
 Possible improvements
 - Migrate to an SQL database for better data integrity (User and Conversation tables have many-to-many relationship)
 - Keep track of connected clients with custom socket id, and emit to only relevant clients
-- Handle errors in a more detailed fashion (e.g. based on response status)
+- Detailed error handling (e.g. based on response status and message)
 - Ability to create / edit user profile
 - Manage account details (change password, etc.)
 - Add new contacts directly from chat rooms
