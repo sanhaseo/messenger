@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '70%',
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
-
+    flexShrink: 0,
   },
   message: {
     borderRadius: 15,
