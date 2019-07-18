@@ -17,11 +17,10 @@ Built with
 - material-ui
 
 Todo
-- Implement contact item menu
+- Display notification on event (e.g. new message, etc.)
 
 Future implementations
 - Loading spinner
-- Display notification on event (e.g. new message, etc.)
 - Ability to delete account, delete contacts, and leave chat rooms
 - Ability to add new contacts directly from chat rooms
 - User profile and account management
