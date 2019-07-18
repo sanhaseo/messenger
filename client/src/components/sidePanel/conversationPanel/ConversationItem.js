@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   date: {
-    margin: theme.spacing(2, 0, 1.5, 1),
+    margin: theme.spacing(2, 0, 1.5),
   },
   side: {
     alignSelf: 'flex-start',
