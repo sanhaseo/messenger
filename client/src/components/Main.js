@@ -44,9 +44,9 @@ const Main = ({
   useEffect(() => {
     getConversations();
     getContacts();
-    // Before unmount, disconnect socket.
+    // Disconnect socket before unmount.
     return () => socket.disconnect();
-  }, [getConversations, getContacts]);
+  }, [getConversations, getContacts, socket]);
 
   // On incoming new conversation, add conversation to client state.
   socket.on('conversation', data => {

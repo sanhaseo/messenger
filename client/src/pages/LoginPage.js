@@ -1,59 +1,156 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link as RouterLink } from 'react-router-dom';
 import { login } from '../actions/auth';
+import { clearError } from '../actions/error';
+// styles
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import ChatIcon from '@material-ui/icons/Chat';
+import WarningIcon from '@material-ui/icons/Warning';
+import Link from '@material-ui/core/Link';
 
-const LoginPage = ({ isAuthenticated, login }) => {
-  // test
+const useStyles = makeStyles(theme => ({
+  root: {
+    paddingTop: theme.spacing(20),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  title: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  titleIcon: {
+    fontSize: 35,
+    marginRight: theme.spacing(1.5),
+  },
+  errorMessage: {
+    marginTop: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
+  },
+  errorIcon: {
+    marginRight: theme.spacing(1.5),
+  },
+  form: {
+    marginTop: theme.spacing(2),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  footer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+}));
+
+const LoginPage = ({ isAuthenticated, error, login, clearError }) => {
+  const classes = useStyles();  
+  // Clear error before unmount.
+  useEffect(() => {
+    return () => clearError();
+  }, [clearError]);
+  // Local input state.
   const [input, setInput] = useState({ 
     username: '', 
     password: '' 
   });
 
+  // If user is already logged in, redirect to main.
   if (isAuthenticated) {
     return <Redirect to='/' />;
   }
 
-  // test
+  // Handle input change.
   const handleChange = event => {
     const { name, value } = event.target;
     setInput({ ...input, [name]: value });
   };
-  // test
+
+  // Handle form submit.
   const handleSubmit = event => {
     event.preventDefault();
     login(input);
   };
 
   return (
-    <Fragment>
-      <h4>Login</h4>
-      <form onSubmit={handleSubmit}>
-        <label>Username</label>
-        <input 
-          type='text' 
-          name='username' 
-          value={input.username} 
-          onChange={handleChange} 
+    <Container maxWidth='xs' className={classes.root}>
+      <div className={classes.title}>
+        <ChatIcon className={classes.titleIcon} color='primary' />
+        <Typography variant="h5">Messenger</Typography>
+      </div>
+      {// If error is present, display error message.
+        error.message && (
+          <div className={classes.errorMessage}>
+            <WarningIcon color='secondary' className={classes.errorIcon} />
+            <Typography variant='subtitle1' color='secondary'>
+              {error.message}
+            </Typography>
+          </div>
+        )
+      }
+      <form onSubmit={handleSubmit} className={classes.form}>
+        <TextField 
+          type='text'
+          name='username'
+          value={input.username}
+          onChange={handleChange}
+          variant='outlined'
+          placeholder='Username'
+          margin='dense'
+          required
+          fullWidth
+          autoFocus
         />
-        <br />
-        <label>Password</label>
-        <input 
-          type='password' 
-          name='password' 
-          value={input.password} 
-          onChange={handleChange} 
+        <TextField 
+          type='password'
+          name='password'
+          value={input.password}
+          onChange={handleChange}
+          variant='outlined'
+          placeholder='Password'
+          margin='dense'
+          required
+          fullWidth
         />
-        <br />
-        <button type='submit'>Login</button>
+        <Button
+          type='submit'
+          disabled={!input.username || !input.password}
+          fullWidth
+          variant='contained'
+          color='primary'
+          className={classes.submit}
+        >
+          Login
+        </Button>
       </form>
-      <Link to='/register'>Don't have an account? Sign Up</Link>
-    </Fragment>
+      <div className={classes.footer}>
+        <Typography>
+          <Link 
+            href='https://github.com/sanhaseo/messenger' 
+            target='black'
+          >
+            GitHub
+          </Link>
+        </Typography>
+        <Typography>
+          <Link component={RouterLink} to='/register'>
+            Don't have an account? Register
+          </Link>
+        </Typography>
+      </div>
+    </Container>
   );
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.error
 });
 
-export default connect(mapStateToProps, { login })(LoginPage);
+export default connect(mapStateToProps, { login, clearError })(LoginPage);

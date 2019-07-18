@@ -5,7 +5,7 @@ const defaultState = { message: null };
 const error = (state = defaultState, action) => {
   switch (action.type) {
     case SET_ERROR:
-      return action.error;
+      return { message: action.message };
     case CLEAR_ERROR:
       return { message: null };
     default:

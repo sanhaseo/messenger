@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import ChatIcon from '@material-ui/icons/Chat';
+import PersonIcon from '@material-ui/icons/Person';
 import Badge from '@material-ui/core/Badge';
 
 const AntTab = withStyles({
@@ -33,18 +33,10 @@ const useStyles = makeStyles(theme => ({
 
 const SideNavbar = ({ tab, onChange, conversations }) => {
   // Total number of unread message across all conversations.
-  // let unreadMessages = 0;
-  // if (conversations.length !== 0) {
-  //   unreadMessages = conversations.reduce(
-  //     (total, conversation) => total + (conversation.messages.length - conversation.lastMessageRead),
-  //     0
-  //   );
-  // }
   const unreadMessages = conversations.reduce(
     (total, conversation) => total + (conversation.messages.length - conversation.lastMessageRead),
     0
   );
-  // console.log(unreadMessages)
 
   const classes = useStyles();
   return (
@@ -62,12 +54,12 @@ const SideNavbar = ({ tab, onChange, conversations }) => {
               badgeContent={unreadMessages}
               invisible={unreadMessages === 0}
             >
-              <ChatOutlinedIcon />
+              <ChatIcon />
             </Badge>
           } 
           disableRipple 
         />
-        <AntTab icon={<PersonOutlineIcon />} disableRipple />
+        <AntTab icon={<PersonIcon />} disableRipple />
       </Tabs>
     </div>
   );

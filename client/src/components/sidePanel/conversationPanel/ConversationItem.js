@@ -39,6 +39,7 @@ const ConversationItem = ({
   setCurrentConversationWrapper 
 }) => {
   const { _id, participants, messages, lastMessageRead } = conversation;
+  // Conversation participants in string.
   const participantsStr = participants.join(', ');
   const initial = participantsStr.charAt(0).toUpperCase(); // for avatar
   // Check if the messages array is empty.

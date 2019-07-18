@@ -16,7 +16,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
-import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import SearchIcon from '@material-ui/icons/Search';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
@@ -90,7 +90,7 @@ const ContactBanner = ({ username, contacts, addContactToServer }) => {
       
       <Tooltip title='Add new contact'>
         <IconButton onClick={handleClickOpen}>
-          <PersonAddOutlinedIcon />
+          <PersonAddIcon />
         </IconButton>
       </Tooltip>
 

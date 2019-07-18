@@ -1,59 +1,189 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link as RouterLink } from 'react-router-dom';
 import { register } from '../actions/auth';
+import { clearError } from '../actions/error';
+// styles
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import WarningIcon from '@material-ui/icons/Warning';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Link from '@material-ui/core/Link';
 
-const RegisterPage = ({ isAuthenticated, register }) => {
-  // test
+const useStyles = makeStyles(theme => ({
+  root: {
+    paddingTop: theme.spacing(20),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  title: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  titleIcon: {
+    fontSize: 35,
+    marginRight: theme.spacing(1.5),
+  },
+  errorMessage: {
+    marginTop: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
+  },
+  errorIcon: {
+    marginRight: theme.spacing(1.5),
+  },
+  form: {
+    marginTop: theme.spacing(2),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  footer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+}));
+
+const RegisterPage = ({ isAuthenticated, error, register, clearError }) => {
+  const classes = useStyles();
+  // Clear error before unmount.
+  useEffect(() => {
+    return () => clearError();
+  }, [clearError]);
+  // Local input state.
   const [input, setInput] = useState({ 
     username: '', 
-    password: '' 
+    password: '' ,
+    confirmPassword: ''
   });
 
+  // If user is already logged in, redirect to main.
   if (isAuthenticated) {
     return <Redirect to='/' />;
   }
 
-  // test
+  // Handle input change.
   const handleChange = event => {
     const { name, value } = event.target;
     setInput({ ...input, [name]: value });
   };
-  // test
+
+  // Handle form submit.
   const handleSubmit = event => {
     event.preventDefault();
     register(input);
   };
 
+  // Return true if confirmPassword field is empty or
+  // equals password field.
+  const passwordsMatch = () => {
+    return !input.confirmPassword || input.confirmPassword === input.password;
+  };
+
   return (
-    <Fragment>
-      <h4>Register</h4>
-      <form onSubmit={handleSubmit}>
-        <label>Username</label>
-        <input 
-          type='text' 
-          name='username' 
-          value={input.username} 
-          onChange={handleChange} 
+    <Container maxWidth='xs' className={classes.root}>
+      <div className={classes.title}>
+        <PersonAddIcon className={classes.titleIcon} color='primary' />
+        <Typography variant="h5">Register</Typography>
+      </div>
+      {// If error is present, display error message.
+        error.message && (
+          <div className={classes.errorMessage}>
+            <WarningIcon color='secondary' className={classes.errorIcon} />
+            <Typography variant='subtitle1' color='secondary'>
+              {error.message}
+            </Typography>
+          </div>
+        )
+      }
+      <form onSubmit={handleSubmit} className={classes.form}>
+        <TextField 
+          type='text'
+          name='username'
+          value={input.username}
+          onChange={handleChange}
+          variant='outlined'
+          placeholder='Username'
+          margin='dense'
+          required
+          fullWidth
+          autoFocus
         />
-        <br />
-        <label>Password</label>
-        <input 
-          type='password' 
-          name='password' 
-          value={input.password} 
-          onChange={handleChange} 
+        <TextField 
+          type='password'
+          name='password'
+          value={input.password}
+          onChange={handleChange}
+          variant='outlined'
+          placeholder='Password'
+          margin='dense'
+          required
+          fullWidth
         />
-        <br />
-        <button type='submit'>Register</button>
+        <FormControl 
+          variant='outlined' 
+          margin='dense'
+          fullWidth
+          error={!passwordsMatch()}
+        >
+          <OutlinedInput 
+            type='password'
+            name='confirmPassword'
+            value={input.confirmPassword}
+            onChange={handleChange}
+            placeholder='Confirm password'
+            required
+          />
+          {!passwordsMatch() && (
+            <FormHelperText>Your passwords don't match</FormHelperText>
+          )}
+        </FormControl>
+        <Button
+          type='submit'
+          disabled={
+            !input.username 
+            || !input.password 
+            || !input.confirmPassword 
+            || !passwordsMatch()
+          }
+          fullWidth
+          variant='contained'
+          color='primary'
+          className={classes.submit}
+        >
+          Register
+        </Button>
       </form>
-      <Link to='/login'>Already have an account? Sign In</Link>
-    </Fragment>
+      <div className={classes.footer}>
+        <Typography>
+          <Link 
+            href='https://github.com/sanhaseo/messenger' 
+            target='black'
+          >
+            GitHub
+          </Link>
+        </Typography>
+        <Typography>
+          <Link component={RouterLink} to='/login'>
+            Already have an account? Login
+          </Link>
+        </Typography>
+      </div>
+    </Container>
   );
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.error
 });
 
-export default connect(mapStateToProps, { register })(RegisterPage);
+export default connect(mapStateToProps, { register, clearError })(RegisterPage);

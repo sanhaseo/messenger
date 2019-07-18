@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 // redux
 import { connect } from 'react-redux';
 import { addConversationToServer } from '../../../actions/conversations';
+import { setCurrentConversation } from '../../../actions/currentConversation';
 // styles
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -15,7 +16,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
-import AddCommentOutlinedIcon from '@material-ui/icons/AddCommentOutlined';
+import AddCommentIcon from '@material-ui/icons/AddComment';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import List from '@material-ui/core/List';
@@ -45,7 +46,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ConversationBanner = ({ username, contacts, conversations }) => {
+const ConversationBanner = ({ 
+  username, 
+  contacts, 
+  conversations,
+  setCurrentConversation 
+}) => {
   // Dialog open state.
   const [open, setOpen] = useState(false);
   // Keep track of the checked items.
@@ -92,6 +98,7 @@ const ConversationBanner = ({ username, contacts, conversations }) => {
     addConversationToServer(participants);
     setOpen(false);
     setChecked([]);
+    setCurrentConversation(null);
   };
 
   const classes = useStyles();
@@ -101,7 +108,7 @@ const ConversationBanner = ({ username, contacts, conversations }) => {
       
       <Tooltip title='New conversation'>
         <IconButton onClick={handleClickOpen}>
-          <AddCommentOutlinedIcon />
+          <AddCommentIcon />
         </IconButton>
       </Tooltip>
 
@@ -154,4 +161,8 @@ const mapStateToProps = state => ({
   conversations: state.conversations
 });
 
-export default connect(mapStateToProps)(ConversationBanner);
+const mapDispatchToProps = dispatch => ({
+  setCurrentConversation: _id => dispatch(setCurrentConversation(_id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConversationBanner);

@@ -1,5 +1,6 @@
-import { SET_CURRENT_USER, CLEAR_USER } from '../actions/actionTypes';
 import axios from 'axios';
+import { SET_CURRENT_USER, CLEAR_USER } from '../actions/actionTypes';
+import { setError, clearError } from './error';
 
 const setCurrentUser = username => ({
   type: SET_CURRENT_USER,
@@ -10,7 +11,6 @@ const clearUser = () => ({
   type: CLEAR_USER
 });
 
-// UNFINISHED
 // Request server to register user with given username and password.
 // data should be { username, password }
 export const register = data => {
@@ -21,19 +21,13 @@ export const register = data => {
 
       // If register successful, set current user.
       dispatch(setCurrentUser(res.data.username));
-
-      // Clear error here...
+      dispatch(clearError());
     } catch (err) {
-      
-      // Set error here...
-
-      // test
-      console.log(err);
+      dispatch(setError(`${err.response.data.message}. Please try again.`));
     }
   };
 };
 
-// UNFINISHED
 // Request server to login user with given username and password.
 // data should be { username, password }
 export const login = data => {
@@ -44,14 +38,9 @@ export const login = data => {
 
       // If login successful, set current user.
       dispatch(setCurrentUser(res.data.username));
-
-      // Clear error here...
+      dispatch(clearError());
     } catch (err) {
-
-      // Set error here...
-
-      // test
-      console.log(err);
+      dispatch(setError(`${err.response.data.message}. Please try again.`));
     }
   };
 };
