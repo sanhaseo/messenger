@@ -14,6 +14,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     height: 70,
   },
+  avatar: {
+    backgroundColor: '#3f51b5',
+  },
 }));
 
 const ContactItem = ({ username }) => {
@@ -23,7 +26,7 @@ const ContactItem = ({ username }) => {
   return (
     <ListItem button alignItems="center" className={classes.root}>
       <ListItemAvatar>
-        <Avatar>{initial}</Avatar>
+        <Avatar className={classes.avatar}>{initial}</Avatar>
       </ListItemAvatar>
       <ListItemText
         primary={

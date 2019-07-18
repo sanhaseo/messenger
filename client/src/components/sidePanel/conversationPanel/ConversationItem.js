@@ -29,6 +29,9 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  avatar: {
+    backgroundColor: '#3f51b5',
+  },
 }));
 
 const ConversationItem = ({ 
@@ -77,7 +80,7 @@ const ConversationItem = ({
       onClick={handleClick}
     >
       <ListItemAvatar>
-        <Avatar>{initial}</Avatar>
+        <Avatar className={classes.avatar}>{initial}</Avatar>
       </ListItemAvatar>
       <ListItemText
         primary={

@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
     height: 35,
     marginRight :theme.spacing(1),
     marginTop :theme.spacing(2),
+    backgroundColor: '#3f51b5',
   },
   receivedMessage: {
     background: '#e8e8e8',

@@ -17,7 +17,7 @@ Built with
 - material-ui
 
 Todo
-- Display notification on event (e.g. new message, etc.)
+- Display notification on event (e.g. new message)
 
 Future implementations
 - Loading spinner
