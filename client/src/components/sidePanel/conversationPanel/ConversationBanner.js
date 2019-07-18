@@ -113,7 +113,7 @@ const ConversationBanner = ({
       </Tooltip>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create New Conversation</DialogTitle>
+        <DialogTitle>Create new conversation</DialogTitle>
         <DialogContent className={classes.dialogContent}>
           <List className={classes.list}>
             {contacts.map(value => {

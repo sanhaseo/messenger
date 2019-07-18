@@ -95,7 +95,7 @@ const ContactBanner = ({ username, contacts, addContactToServer }) => {
       </Tooltip>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add New Contact</DialogTitle>
+        <DialogTitle>Add new contact</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit} className={classes.searchForm}>
             <TextField

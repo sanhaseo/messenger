@@ -29,7 +29,7 @@ const ChatArea = ({ messages }) => {
     <div className={classes.root}>
       {// Map each message to a ChatItem.
         messages.map((message, index) => (
-        <ChatItem key={index} message={message} />
+          <ChatItem key={index} message={message} />
       ))}
       <div ref={messageEndRef} />
     </div>

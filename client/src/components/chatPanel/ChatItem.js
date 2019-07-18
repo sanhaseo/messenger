@@ -10,7 +10,9 @@ const useStyles = makeStyles(theme => ({
   // Common styles for chat items
   root: {
     maxWidth: '70%',
-    margin: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+
   },
   message: {
     borderRadius: 15,
@@ -20,7 +22,8 @@ const useStyles = makeStyles(theme => ({
   // Styles for chat items sent (from current user).
   sent: {
     alignSelf: 'flex-end',
-    // display: 'flex',
+    marginLeft: '30%',
+    marginRight: theme.spacing(2),
   },
   sentMessage: {
     background: '#c4e2ff',
@@ -31,6 +34,8 @@ const useStyles = makeStyles(theme => ({
   // Styles for chat items received.
   received: {
     display: 'flex',
+    marginRight: '30%',
+    marginLeft: theme.spacing(2),
   },
   avatar: {
     width: 35,
