@@ -166,7 +166,7 @@ const RegisterPage = ({ isAuthenticated, error, register, clearError }) => {
         <Typography>
           <Link 
             href='https://github.com/sanhaseo/messenger' 
-            target='black'
+            target='blank'
           >
             GitHub
           </Link>
