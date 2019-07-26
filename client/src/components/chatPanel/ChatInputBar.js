@@ -11,7 +11,7 @@ import SendIcon from '@material-ui/icons/Send';
 const useStyles = makeStyles(theme => ({
   root: {
     flexShrink: 0,
-    padding: theme.spacing(1, 2),
+    padding: theme.spacing(0, 2),
     display: 'flex',
   },
   textField: {

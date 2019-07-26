@@ -12,11 +12,11 @@ const defaultState = [];
 const conversations = (state = defaultState, action) => {
   switch (action.type) {
     case SET_CONVERSATIONS:
-      return action.conversations;
+      return action.conversations.sort(compare);
     case CLEAR_CONVERSATIONS:
       return [];
     case ADD_CONVERSATION:
-      return [...state, action.conversation]; // TODO: sort by date
+      return [...state, action.conversation].sort(compare);
     case ADD_PARTICIPANTS:
       return state.map(conversation => {
         if (conversation._id === action._id) {
@@ -36,7 +36,7 @@ const conversations = (state = defaultState, action) => {
           };
         }
         return conversation;
-      });
+      }).sort(compare);
     case UPDATE_LAST_MESSAGE_READ:
       return state.map(conversation => {
         if (conversation._id === action._id) {
@@ -50,6 +50,16 @@ const conversations = (state = defaultState, action) => {
     default:
       return state;
   }
+};
+
+// Helper function that compares two conversations by last message date.
+const compare = (c1, c2) => {
+  const c1Date = c1.messages[c1.messages.length - 1].date;
+  const c2Date = c2.messages[c2.messages.length - 1].date;
+
+  if (c1Date > c2Date) return -1;
+  if (c1Date < c2Date) return 1;
+  return 0;
 };
 
 export default conversations;

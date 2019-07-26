@@ -18,7 +18,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'absolute',
-    top: theme.spacing(1.5),
+    top: theme.spacing(1),
     right: theme.spacing(2),
   },
   username: {

@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: 70,
+    height: 60,
     padding: theme.spacing(1, 2),
     flexShrink: 0,
     display: 'flex',

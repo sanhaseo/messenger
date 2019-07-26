@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link as RouterLink } from 'react-router-dom';
 import { register } from '../actions/auth';
@@ -18,7 +18,6 @@ import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    paddingTop: theme.spacing(20),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -89,95 +88,98 @@ const RegisterPage = ({ isAuthenticated, error, register, clearError }) => {
   };
 
   return (
-    <Container maxWidth='xs' className={classes.root}>
-      <div className={classes.title}>
-        <PersonAddIcon className={classes.titleIcon} color='primary' />
-        <Typography variant="h5">Register</Typography>
-      </div>
-      {// If error is present, display error message.
-        error.message && (
-          <div className={classes.errorMessage}>
-            <WarningIcon color='secondary' className={classes.errorIcon} />
-            <Typography variant='subtitle1' color='secondary'>
-              {error.message}
-            </Typography>
-          </div>
-        )
-      }
-      <form onSubmit={handleSubmit} className={classes.form}>
-        <TextField 
-          type='text'
-          name='username'
-          value={input.username}
-          onChange={handleChange}
-          variant='outlined'
-          placeholder='Username'
-          margin='dense'
-          required
-          fullWidth
-          autoFocus
-        />
-        <TextField 
-          type='password'
-          name='password'
-          value={input.password}
-          onChange={handleChange}
-          variant='outlined'
-          placeholder='Password'
-          margin='dense'
-          required
-          fullWidth
-        />
-        <FormControl 
-          variant='outlined' 
-          margin='dense'
-          fullWidth
-          error={!passwordsMatch()}
-        >
-          <OutlinedInput 
-            type='password'
-            name='confirmPassword'
-            value={input.confirmPassword}
+    <Fragment>
+      <Container maxWidth='xs' className={classes.root}>
+        <div className={classes.title}>
+          <PersonAddIcon className={classes.titleIcon} color='primary' />
+          <Typography variant="h5">Register</Typography>
+        </div>
+        {// If error is present, display error message.
+          error.message && (
+            <div className={classes.errorMessage}>
+              <WarningIcon color='secondary' className={classes.errorIcon} />
+              <Typography variant='subtitle1' color='secondary'>
+                {error.message}
+              </Typography>
+            </div>
+          )
+        }
+        <form onSubmit={handleSubmit} className={classes.form}>
+          <TextField 
+            type='text'
+            name='username'
+            value={input.username}
             onChange={handleChange}
-            placeholder='Confirm password'
+            variant='outlined'
+            placeholder='Username'
+            margin='dense'
             required
+            fullWidth
+            autoFocus
           />
-          {!passwordsMatch() && (
-            <FormHelperText>Your passwords don't match</FormHelperText>
-          )}
-        </FormControl>
-        <Button
-          type='submit'
-          disabled={
-            !input.username 
-            || !input.password 
-            || !input.confirmPassword 
-            || !passwordsMatch()
-          }
-          fullWidth
-          variant='contained'
-          color='primary'
-          className={classes.submit}
-        >
-          Register
-        </Button>
-      </form>
-      <div className={classes.footer}>
-        <Typography>
-          <Link 
-            href='https://github.com/sanhaseo/messenger' 
-            target='blank'
+          <TextField 
+            type='password'
+            name='password'
+            value={input.password}
+            onChange={handleChange}
+            variant='outlined'
+            placeholder='Password'
+            margin='dense'
+            required
+            fullWidth
+          />
+          <FormControl 
+            variant='outlined' 
+            margin='dense'
+            fullWidth
+            error={!passwordsMatch()}
           >
-            GitHub
-          </Link>
-        </Typography>
-        <Typography>
-          <Link component={RouterLink} to='/login'>
-            Already have an account? Login
-          </Link>
-        </Typography>
-      </div>
-    </Container>
+            <OutlinedInput 
+              type='password'
+              name='confirmPassword'
+              value={input.confirmPassword}
+              onChange={handleChange}
+              placeholder='Confirm password'
+              required
+            />
+            {!passwordsMatch() && (
+              <FormHelperText>Your passwords don't match</FormHelperText>
+            )}
+          </FormControl>
+          <Button
+            type='submit'
+            disabled={
+              !input.username 
+              || !input.password 
+              || !input.confirmPassword 
+              || !passwordsMatch()
+            }
+            fullWidth
+            variant='contained'
+            color='primary'
+            className={classes.submit}
+          >
+            Register
+          </Button>
+        </form>
+        <div className={classes.footer}>
+          <Typography>
+            <Link 
+              href='https://github.com/sanhaseo/messenger' 
+              target='blank'
+            >
+              GitHub
+            </Link>
+          </Typography>
+          <Typography>
+            <Link component={RouterLink} to='/login'>
+              Already have an account? Login
+            </Link>
+          </Typography>
+        </div>
+      </Container>
+      <div />
+    </Fragment>
   );
 };
 
