@@ -54,8 +54,13 @@ const conversations = (state = defaultState, action) => {
 
 // Helper function that compares two conversations by last message date.
 const compare = (c1, c2) => {
-  const c1Date = c1.messages[c1.messages.length - 1].date;
-  const c2Date = c2.messages[c2.messages.length - 1].date;
+  const c1NumMsgs = c1.messages.length;
+  const c2NumMsgs = c2.messages.length;
+  if (!c2NumMsgs) return 1;
+  if (!c1NumMsgs) return -1;
+
+  const c1Date = c1.messages[c1NumMsgs - 1].date;
+  const c2Date = c2.messages[c2NumMsgs - 1].date;
 
   if (c1Date > c2Date) return -1;
   if (c1Date < c2Date) return 1;

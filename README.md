@@ -28,5 +28,5 @@ Future implementations
 Possible improvements
 - Migrate to an SQL database for better data integrity (User and Conversation tables have many-to-many relationship)
 - Keep track of connected clients with custom socket id, and emit to only relevant clients
-- On login, fetch only the last message of each conversation. Fetch the rest when a conversation is selected.
+- On login, only fetch the last message of each conversation. Fetch the rest when a conversation is selected.
 - Detailed error handling (e.g. based on response status and message)
