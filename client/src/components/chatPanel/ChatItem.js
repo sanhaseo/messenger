@@ -83,7 +83,7 @@ const ChatItem = ({ message, currentUser }) => {
     <div className={[classes.root, classes.received].join(' ')}>
       <Avatar className={classes.avatar}>{initial}</Avatar>
       <div>
-        <Typography variant='body1'>{username}</Typography>
+        <Typography variant='body1'><strong>{username}</strong></Typography>
         <Typography 
           variant='body1' 
           className={[classes.message, classes.receivedMessage].join(' ')}
