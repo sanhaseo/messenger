@@ -10,6 +10,7 @@ import List from '@material-ui/core/List';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
+    height: 'calc(100vh - 140px)',
     overflowY: 'auto',
     flewGrow: 1,
     padding: theme.spacing(0),
