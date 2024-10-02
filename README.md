@@ -1,4 +1,4 @@
-https://sanha-messenger.herokuapp.com/
+https://sanha-messenger-e10de4757214.herokuapp.com/
 
 Basic messenger app
 
